@@ -39,7 +39,7 @@ void UpdateGrid() {
                 }
             }
             if (grid[i][j] == true) {
-                if (neighbors < 2 || neighbors > 4) {
+                if (neighbors < 2 || neighbors > 3) {
                     gridBuffer[i][j] = false;
                 }
                 else {
@@ -78,8 +78,6 @@ void DrawGrid() {
 int main()
 {
     InitWindow(screenWidth, screenHeight, "Game of Life");
-    Image image = LoadImage("assets/icon.png");
-    SetWindowIcon(image);
     SetTargetFPS(30);
 
     InitGrid();
@@ -98,5 +96,3 @@ int main()
 
     return 0;
 }
-
-
