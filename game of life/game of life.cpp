@@ -2,8 +2,7 @@
 // by Adam Ullmann
 
 #include "raylib.h"
-#include <math.h>
-#include <iostream>
+//#include <math.h>
 
 const int screenWidth = 1700;
 const int screenHeight = 900;
