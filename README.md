@@ -1,6 +1,6 @@
-# Game-of-Life
+# Game of Life
 
-> Created by Adam Ullmann using raylib.
+> Created by Adam Ullmann using Raylib.
 
 This project is a graphical simulation of Conway's Game of Life. It's built using the [raylib](https://www.raylib.com/) graphics library, offering a clean and efficient way to visualize the evolution of the game's cellular automaton.
 
@@ -28,5 +28,5 @@ This project is a graphical simulation of Conway's Game of Life. It's built usin
 
 ## Acknowledgements
 
-- **raylib**: A special thank you to [raylib](https://www.raylib.com/) for providing an efficient and easy-to-use library for C/C++ graphics programming.
+- **raylib**: A special thank you to [Raylib](https://www.raylib.com/) for providing an efficient and easy-to-use library for C/C++ graphics programming.
 - **John Conway**: Thanks to John Conway for creating the Game of Life, which has inspired countless developers and enthusiasts around the world.
