@@ -17,14 +17,14 @@ This project is a graphical simulation of Conway's Game of Life. It's built usin
 
 ## Controls
 
-- **Left Mouse Button**: Activate a cell.
-- **Right Mouse Button**: Deactivate a cell.
-- **Mouse Wheel**: Zoom in and out.
-- **SPACE**: Pause/Resume the simulation.
-- **UP Arrow**: Increase the simulation speed.
-- **DOWN Arrow**: Decrease the simulation speed.
-- **R**: Randomize the grid.
-- **C**: Clear the grid.
+- `Left Mouse Button`: Activate a cell.
+- `Right Mouse Button`: Deactivate a cell.
+- `Mouse Wheel`: Zoom in and out.
+- `SPACE`: Pause/Resume the simulation.
+- `UP Arrow`: Increase the simulation speed.
+- `DOWN Arrow`: Decrease the simulation speed.
+- `R`: Randomize the grid.
+- `C`: Clear the grid.
 
 ## Acknowledgements
 
