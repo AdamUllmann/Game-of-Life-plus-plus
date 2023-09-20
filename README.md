@@ -2,6 +2,8 @@
 
 > Created by Adam Ullmann using Raylib.
 
+[CLICK HERE FOR A VIDEO DEMONSTRATION](https://youtu.be/00qdEhFklSw?si=RO5__LIQkERXu41I)
+
 This project is a graphical simulation of Conway's Game of Life. It's built using the [raylib](https://www.raylib.com/) graphics library, offering a clean and efficient way to visualize the evolution of the game's cellular automaton.
 
 ## Features
