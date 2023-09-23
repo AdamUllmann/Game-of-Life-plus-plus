@@ -2,6 +2,7 @@
 // by Adam Ullmann
 
 #include "raylib.h"
+#include <vector>
 
 // Constants
 const int screenWidth = 1280;
@@ -14,9 +15,14 @@ const int gridHeight = screenHeight / cellSize;
 bool grid[gridWidth][gridHeight] = { 0 };
 bool gridBuffer[gridWidth][gridHeight] = { 0 };
 bool gamePaused = true;
+bool showRulesPanel = false;
 int zoomedCellSize = 5;
 int frameCounter = 0;
 int updateEveryNFrames = 8;
+
+// CA Rules
+std::vector<int> sRules = { 2, 3 }; // Conway's Game of Life rules as the defualt
+std::vector<int> bRules = { 3 };
 
 void randomizeGrid() {
     for (int i = 0; i < gridWidth; i++) {
@@ -30,6 +36,49 @@ void clearGrid() {
     for (int i = 0; i < gridWidth; i++) {
         for (int j = 0; j < gridHeight; j++) {
             grid[i][j] = 0;
+        }
+    }
+}
+
+void UpdateRulesPanel() {
+    if (IsKeyPressed(KEY_ENTER)) {
+        showRulesPanel = !showRulesPanel;
+    }
+
+    if (showRulesPanel) {
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            int mouseX = GetMouseX();
+            int mouseY = GetMouseY();
+            // S Rules
+            for (int i = 0; i < sRules.size(); i++) {
+                if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { float(175 + i * 20), 40, 10, 20 })) {
+                    sRules.erase(sRules.begin() + i); // delete the rule
+                    break;
+                }
+                if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { float(175 + i * 20), 20, 20, 20 })) {
+                    int newValue = (sRules[i] + 1) % 9; // 9 possible neighbor states
+                    sRules[i] = newValue;
+                    break;
+                }
+            }
+            // B Rules
+            for (int i = 0; i < bRules.size(); i++) {
+                if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { float(175 + i * 20), 90, 10, 20 })) {
+                    bRules.erase(bRules.begin() + i); // delete the rule
+                    break;
+                }
+                if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { float(175 + i * 20), 70, 20, 20 })) {
+                    int newValue = (bRules[i] + 1) % 9; // 9 possible neighbor states
+                    bRules[i] = newValue;
+                    break;
+                }
+            }
+            if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { 360, 20, 20, 20 }) && sRules.size() < 9) {
+                sRules.push_back(0);
+            }
+            else if (CheckCollisionPointRec({ (float)mouseX, (float)mouseY }, { 360, 70, 20, 20 }) && bRules.size() < 9) {
+                bRules.push_back(0);
+            }
         }
     }
 }
@@ -50,21 +99,25 @@ void UpdateGrid() {
                     }
                 }
             }
-            if (grid[i][j] == true) {
-                if (neighbors < 2 || neighbors > 3) {
-                    gridBuffer[i][j] = false;
+            if (grid[i][j]) {
+                bool survives = false;
+                for (int k = 0; k < sRules.size(); k++) {
+                    if (neighbors == sRules[k]) {
+                        survives = true;
+                        break;
+                    }
                 }
-                else {
-                    gridBuffer[i][j] = true;
-                }
+                gridBuffer[i][j] = survives;
             }
             else {
-                if (neighbors == 3) {
-                    gridBuffer[i][j] = true;
+                bool reproduces = false;
+                for (int k = 0; k < bRules.size(); k++) {
+                    if (neighbors == bRules[k]) {
+                        reproduces = true;
+                        break;
+                    }
                 }
-                else {
-                    gridBuffer[i][j] = false;
-                }
+                gridBuffer[i][j] = reproduces;
             }
         }
     }
@@ -74,6 +127,32 @@ void UpdateGrid() {
             grid[i][j] = gridBuffer[i][j];
         }
     }
+}
+
+void DrawRulesPanel() {
+    DrawRectangle(10, 10, 380, 110, GRAY);
+    DrawRectangleLines(10, 10, 380, 110, DARKGRAY);
+    DrawText("Survive Rules:", 20, 20, 20, BLACK);
+    DrawText("Birth Rules:", 20, 70, 20, BLACK);
+
+    // S rules input
+    for (int i = 0; i < sRules.size(); i++) {
+        char ruleText[8];
+        sprintf_s(ruleText, "%d", sRules[i]);
+        DrawText(ruleText, 175 + i * 20, 20, 20, BLACK);
+        DrawText("-", 175 + i * 20, 40, 30, RED);
+    }
+
+    // B rules input
+    for (int i = 0; i < bRules.size(); i++) {
+        char ruleText[8];
+        sprintf_s(ruleText, "%d", bRules[i]);
+        DrawText(ruleText, 175 + i * 20, 70, 20, BLACK);
+        DrawText("-", 175 + i * 20, 90, 30, RED);
+    }
+
+    DrawText("+", 360, 20, 20, DARKGRAY);
+    DrawText("+", 360, 70, 20, DARKGRAY);
 }
 
 void DrawSim() {
@@ -94,6 +173,9 @@ void DrawSim() {
         for (int j = 0; j <= gridHeight; j++) {
             DrawLine(0, j * zoomedCellSize, screenWidth, j * zoomedCellSize, { 35,35,35,255 });
         }
+    }
+    if (showRulesPanel) {
+        DrawRulesPanel();
     }
     EndDrawing();
 }
@@ -129,6 +211,8 @@ void controls() {
 
     if (IsKeyPressed(KEY_R)) randomizeGrid();
     if (IsKeyPressed(KEY_C)) clearGrid();
+
+    UpdateRulesPanel();
 }
 
 void runSim() {
@@ -143,7 +227,7 @@ void runSim() {
 }
 
 int main() {
-    InitWindow(screenWidth, screenHeight, "Game of Life");
+    InitWindow(screenWidth, screenHeight, "Game of Life++");
     SetTargetFPS(480);
     runSim();
     CloseWindow();
