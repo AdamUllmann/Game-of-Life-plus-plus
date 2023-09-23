@@ -4,7 +4,7 @@
 
 [CLICK HERE FOR A VIDEO DEMONSTRATION](https://youtu.be/00qdEhFklSw?si=RO5__LIQkERXu41I)
 
-This project is a graphical simulation of Conway's Game of Life and many other cellular automata. It's built using the [raylib](https://www.raylib.com/) graphics library, offering a clean and efficient way to visualize the evolution of 2D cellular automata.
+This project is an interactive graphical simulation of Conway's Game of Life and many other 2D cellular automata. It's built using the [raylib](https://www.raylib.com/) graphics library, offering a clean efficient, and fully interactive way to visualize the evolution of 2D cellular automata.
 
 ## Features
 
@@ -27,6 +27,8 @@ This project is a graphical simulation of Conway's Game of Life and many other c
 - `DOWN Arrow`: Decrease the simulation speed.
 - `R`: Randomize the grid.
 - `C`: Clear the grid.
+- `H`: Hide/Show Controls
+- `ENTER`: Hide/Show Rules Menu
 
 ## Acknowledgements
 
