@@ -14,11 +14,14 @@ const int gridHeight = screenHeight / cellSize;
 // Global Variables
 bool grid[gridWidth][gridHeight] = { 0 };
 bool gridBuffer[gridWidth][gridHeight] = { 0 };
-bool gamePaused = true;
-bool showRulesPanel = false;
 int zoomedCellSize = 5;
 int frameCounter = 0;
 int updateEveryNFrames = 8;
+
+// Global Flags
+bool gamePaused = true;
+bool showRulesPanel = false;
+bool showControls = true;
 
 // CA Rules
 std::vector<int> sRules = { 2, 3 }; // Conway's Game of Life rules as the defualt
@@ -41,11 +44,6 @@ void clearGrid() {
 }
 
 void UpdateRulesPanel() {
-    if (IsKeyPressed(KEY_ENTER)) {
-        showRulesPanel = !showRulesPanel;
-    }
-
-    if (showRulesPanel) {
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             int mouseX = GetMouseX();
             int mouseY = GetMouseY();
@@ -80,7 +78,6 @@ void UpdateRulesPanel() {
                 bRules.push_back(0);
             }
         }
-    }
 }
 
 void UpdateGrid() {
@@ -155,6 +152,19 @@ void DrawRulesPanel() {
     DrawText("+", 360, 70, 20, DARKGRAY);
 }
 
+void DrawControlsList() {
+    DrawText("Controls:", screenWidth - 180, 10, 10, BLUE);
+    DrawText("ENTER - Open/Close Rules Menu", screenWidth - 180, 20, 10, BLUE);
+    DrawText("Space - Pause/Resume", screenWidth - 180, 30, 10, BLUE);
+    DrawText("Up Arrow - Decrease Speed", screenWidth - 180, 40, 10, BLUE);
+    DrawText("Down Arrow - Increase Speed", screenWidth - 180, 50, 10, BLUE);
+    DrawText("R - Randomize Grid", screenWidth - 180, 60, 10, BLUE);
+    DrawText("C - Clear Grid", screenWidth - 180, 70, 10, BLUE);
+    DrawText("Left Click - Activate Cell", screenWidth - 180, 80, 10, BLUE);
+    DrawText("Right Click - Kill Cell", screenWidth - 180, 90, 10, BLUE);
+    DrawText("H - Hide/Show", screenWidth - 180, 100, 10, GREEN);
+}
+
 void DrawSim() {
     BeginDrawing();
     ClearBackground(BLACK);
@@ -176,6 +186,9 @@ void DrawSim() {
     }
     if (showRulesPanel) {
         DrawRulesPanel();
+    }
+    if (showControls) {
+        DrawControlsList();
     }
     EndDrawing();
 }
@@ -211,8 +224,10 @@ void controls() {
 
     if (IsKeyPressed(KEY_R)) randomizeGrid();
     if (IsKeyPressed(KEY_C)) clearGrid();
-
-    UpdateRulesPanel();
+    if (IsKeyPressed(KEY_H)) showControls = !showControls;
+    if (IsKeyPressed(KEY_ENTER)) showRulesPanel = !showRulesPanel;
+    
+    if (showRulesPanel) UpdateRulesPanel();
 }
 
 void runSim() {
