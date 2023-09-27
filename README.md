@@ -9,7 +9,8 @@ This project is an interactive graphical simulation of Conway's Game of Life and
 ## Features
 
 - **Dynamic Grid**: Adjusts to the size of the window.
-- **Interactive Controls**: 
+- **Interactive Controls**:
+  - Adjust rules using S/B Notation.
   - Pause/Resume the simulation.
   - Randomize the grid population.
   - Clear the grid.
