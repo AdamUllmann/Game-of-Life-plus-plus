@@ -1,4 +1,4 @@
-# Game of Life
+# Game of Life++
 
 > Created by Adam Ullmann using Raylib.
 
